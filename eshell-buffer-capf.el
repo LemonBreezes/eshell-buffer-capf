@@ -41,3 +41,5 @@
     (cl-loop for buffer in (buffer-list)
              when (string-prefix-p prefix (buffer-name buffer))
              collect (buffer-name buffer))))
+
+(provide 'eshell-buffer-capf)
