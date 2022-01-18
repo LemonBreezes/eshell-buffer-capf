@@ -41,4 +41,4 @@ Then, add the following code to your general configuration:
 :CREATED_TIME: [2022-01-04 Tue 12:33]
 :END:
 
-- Add annotations to completions.
+- Add annotations to completions for differentiating buffers.
