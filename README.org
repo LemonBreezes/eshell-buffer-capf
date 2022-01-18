@@ -30,6 +30,9 @@ Then, add the following code to your general configuration:
 (use-package! eshell-buffer-capf
   :commands (eshell-buffer-capf eshell-buffer-capf-setup)
   :init
+  ;; These delimiters need to be paired for auto-completion to trigger.
+  (sp-local-pair 'eshell-mode "#<" ">")
+
   (add-hook 'eshell-mode-hook #'eshell-buffer-capf-setup))
 #+end_src
 
