@@ -23,7 +23,7 @@
 
 ;; Complete buffer expressions in Eshell.
 
-(require 'syntax)
+(require 'anaphora)
 
 (defun eshell-buffer-capf--bounds ()
   "Return a cons cell containing (beg . end).
