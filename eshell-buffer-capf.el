@@ -31,6 +31,7 @@
     (with-syntax-table table
       (syntax-ppss))))
 
+;;;###autoload
 (defun eshell-buffer-capf ()
   "Return the list of buffer completions if inside of buffer delimiters."
   (when-let* ((op (car (nth 9 (eshell-buffer-capf--ppss))))
