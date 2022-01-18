@@ -3,7 +3,7 @@
 ;; Author: Antonio Ruiz <antonioruiz.math@gmail.com>
 ;; URL: https://github.com/LemonBreezes/eshell-buffer-capf
 ;; Version: 1.0
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "26.1") (anaphora "1.0.4"))
 ;; Keywords: extensions
 
 ;; eshell-buffer-capf.el is free software; you can redistribute it and/or modify it
@@ -23,23 +23,35 @@
 
 ;; Complete buffer expressions in Eshell.
 
-(defun eshell-buffer-capf--ppss ()
-  "Parse the state of angle brackets at point."
+(require 'syntax)
+
+(defun eshell-buffer-capf--bounds ()
+  "Return a cons cell containing (beg . end).
+
+This represents the boundaries of the topmost expression
+enclosed by `<', `>'."
   (let ((table (make-syntax-table)))
     (modify-syntax-entry ?< "(>" table)
     (modify-syntax-entry ?> ")<" table)
+    (modify-syntax-entry ?\\ "\\" table)
     (with-syntax-table table
-      (syntax-ppss))))
+      (awhen (nth 9 (syntax-ppss))
+        (save-excursion
+          (cons (goto-char (car it))
+                (progn (forward-sexp)
+                       (point))))))))
+
+(defun eshell-buffer-capf--candidates ()
+  (mapcar #'buffer-name (buffer-list)))
 
 (defun eshell-buffer-capf ()
   "Return the list of buffer completions if inside of buffer delimiters."
-  (when-let* ((op (car (nth 9 (eshell-buffer-capf--ppss))))
-              (complete-p (eq (char-before op) ?#))
-              (prefix (buffer-substring-no-properties
-                       (1+ op)
-                       (point))))
-    (cl-loop for buffer in (buffer-list)
-             when (string-prefix-p prefix (buffer-name buffer))
-             collect (buffer-name buffer))))
+  (when-let* ((bounds (eshell-buffer-capf--bounds))
+              (complete-p (eq (char-before (car bounds)) ?#)))
+    (list (car bounds)
+          (cdr bounds)
+          (completion-table-dynamic
+           (lambda (_)
+             (eshell-buffer-capf--candidates))))))
 
 (provide 'eshell-buffer-capf)
