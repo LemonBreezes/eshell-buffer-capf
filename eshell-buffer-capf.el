@@ -3,7 +3,7 @@
 ;; Author: Antonio Ruiz <antonioruiz.math@gmail.com>
 ;; URL: https://github.com/LemonBreezes/eshell-buffer-capf
 ;; Version: 1.0
-;; Package-Requires: ((emacs "26.1") (anaphora "1.0.4"))
+;; Package-Requires: ((emacs "27.1") (anaphora "1.0.4"))
 ;; Keywords: extensions
 
 ;; eshell-buffer-capf.el is free software; you can redistribute it and/or modify it
@@ -34,25 +34,39 @@ enclosed by `<', `>'."
     (modify-syntax-entry ?< "(>" table)
     (modify-syntax-entry ?> ")<" table)
     (modify-syntax-entry ?\\ "\\" table)
-    (with-syntax-table table
-      (awhen (nth 9 (syntax-ppss))
+    (ignore-error 'scan-error
+      (with-syntax-table table
         (save-excursion
-          (cons (goto-char (car it))
-                (progn (forward-sexp)
-                       (point))))))))
+          (save-restriction
+            (narrow-to-region
+             (save-excursion (goto-char (point-at-bol))
+                             (eshell-skip-prompt)
+                             (point))
+             (point-at-eol))
+            (awhen (nth 9 (syntax-ppss))
+              (cons (1+ (goto-char (car it)))
+                    (1- (progn (forward-sexp)
+                               (point)))))))))))
 
 (defun eshell-buffer-capf--candidates ()
+  "Return the list of candidates for `eshell-buffer-capf'."
   (mapcar #'buffer-name (buffer-list)))
+
+(defun eshell-buffer-capf--predicate (buffer)
+  "Return nil if BUFFER is read only."
+  (not (buffer-local-value 'buffer-read-only
+                           (get-buffer buffer))))
 
 ;;;###autoload
 (defun eshell-buffer-capf ()
   "Return the list of buffer completions if inside of buffer delimiters."
   (when-let* ((bounds (eshell-buffer-capf--bounds))
-              (complete-p (eq (char-before (car bounds)) ?#)))
+              (complete-p (eq (char-before (1- (car bounds))) ?#)))
     (list (car bounds)
           (cdr bounds)
           (completion-table-dynamic
            (lambda (_)
-             (eshell-buffer-capf--candidates))))))
+             (eshell-buffer-capf--candidates)))
+          :predicate #'eshell-buffer-capf--predicate)))
 
 (provide 'eshell-buffer-capf)
