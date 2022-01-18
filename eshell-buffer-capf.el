@@ -44,6 +44,7 @@ enclosed by `<', `>'."
 (defun eshell-buffer-capf--candidates ()
   (mapcar #'buffer-name (buffer-list)))
 
+;;;###autoload
 (defun eshell-buffer-capf ()
   "Return the list of buffer completions if inside of buffer delimiters."
   (when-let* ((bounds (eshell-buffer-capf--bounds))
