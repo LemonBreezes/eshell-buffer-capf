@@ -24,7 +24,9 @@
 ;; Complete buffer expressions in Eshell.
 
 (require 'anaphora)
-(require 'subr-x)
+
+(eval-when-compile
+  (require 'subr-x))
 
 (defun eshell-buffer-capf--bounds ()
   "Return a cons cell containing (beg . end).
