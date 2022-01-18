@@ -70,4 +70,11 @@ enclosed by `<', `>'."
           :predicate #'eshell-buffer-capf--predicate
           :exclusive 'no)))
 
+;;;###autoload
+(defun eshell-buffer-capf-setup ()
+  "Install `eshell-buffer-capf' to `completion-at-point-functions'."
+  (add-hook 'completion-at-point-functions
+            #'eshell-buffer-capf
+            nil t))
+
 (provide 'eshell-buffer-capf)

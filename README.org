@@ -1,1 +1,41 @@
-This project is a work in progress.
+#+TITLE:   Eshell Buffer Capf
+#+DATE:    January 18, 2022
+#+SINCE:   1.0
+#+STARTUP: inlineimages nofold
+
+* Table of Contents :TOC_3:noexport:
+
+- [[#description][Description]]
+- [[#install][Install]]
+  - [[#for-users-of-doom-emacs][For users of Doom Emacs]]
+- [[#future-direction-01][Future direction]]
+
+* Description
+
+This package implements a completion at point function for completing buffers in
+Eshell.
+
+* Install
+
+** For users of Doom Emacs
+
+Add the following snippet to your ~packages.el~ file:
+#+begin_src elisp
+(package! eshell-buffer-capf
+  :recipe (:host github :repo "LemonBreezes/eshell-buffer-capf"))
+#+end_src
+
+Then, add the following code to your general configuration:
+#+begin_src elisp
+(use-package! eshell-buffer-capf
+  :commands (eshell-buffer-capf eshell-buffer-capf-setup)
+  :init
+  (add-hook 'eshell-mode-hook #'eshell-buffer-capf-setup))
+#+end_src
+
+* Future direction [0/1]
+:PROPERTIES:
+:CREATED_TIME: [2022-01-04 Tue 12:33]
+:END:
+
+- [ ] Add annotations to completions.
