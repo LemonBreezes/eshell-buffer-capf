@@ -42,9 +42,7 @@ enclosed by `<', `>'."
         (save-excursion
           (save-restriction
             (narrow-to-region
-             (save-excursion (goto-char (point-at-bol))
-                             (eshell-skip-prompt)
-                             (point))
+             (save-excursion (eshell-bol) (point))
              (point-at-eol))
             (awhen (nth 9 (syntax-ppss))
               (cons (1+ (goto-char (car it)))
