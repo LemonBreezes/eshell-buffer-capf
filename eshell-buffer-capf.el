@@ -41,12 +41,9 @@ enclosed by `<', `>'."
                 (progn (forward-sexp)
                        (point))))))))
 
-<<<<<<< HEAD
 (defun eshell-buffer-capf--candidates ()
   (mapcar #'buffer-name (buffer-list)))
 
-=======
->>>>>>> origin/master
 ;;;###autoload
 (defun eshell-buffer-capf ()
   "Return the list of buffer completions if inside of buffer delimiters."
