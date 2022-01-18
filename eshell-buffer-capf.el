@@ -33,7 +33,7 @@
 
 (defun eshell-buffer-capf ()
   "Return the list of buffer completions if inside of buffer delimiters."
-  (when-let* ((op (car (nth 9 (buffer-capf--ppss))))
+  (when-let* ((op (car (nth 9 (eshell-buffer-capf--ppss))))
               (complete-p (eq (char-before op) ?#))
               (prefix (buffer-substring-no-properties
                        (1+ op)
