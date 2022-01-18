@@ -67,6 +67,7 @@ enclosed by `<', `>'."
           (completion-table-dynamic
            (lambda (_)
              (eshell-buffer-capf--candidates)))
-          :predicate #'eshell-buffer-capf--predicate)))
+          :predicate #'eshell-buffer-capf--predicate
+          :exclusive 'no)))
 
 (provide 'eshell-buffer-capf)
