@@ -8,7 +8,7 @@
 - [[#description][Description]]
 - [[#install][Install]]
   - [[#for-users-of-doom-emacs][For users of Doom Emacs]]
-- [[#future-direction-01][Future direction]]
+- [[#future-direction][Future direction]]
 
 * Description
 
@@ -33,9 +33,9 @@ Then, add the following code to your general configuration:
   (add-hook 'eshell-mode-hook #'eshell-buffer-capf-setup))
 #+end_src
 
-* Future direction [0/1]
+* Future direction
 :PROPERTIES:
 :CREATED_TIME: [2022-01-04 Tue 12:33]
 :END:
 
-- [ ] Add annotations to completions.
+- Add annotations to completions.
