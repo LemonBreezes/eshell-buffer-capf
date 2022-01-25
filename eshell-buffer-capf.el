@@ -23,8 +23,6 @@
 
 ;; Complete buffer expressions in Eshell.
 
-(require 'anaphora)
-
 (eval-when-compile
   (require 'subr-x))
 
@@ -44,8 +42,8 @@ enclosed by `<', `>'."
             (narrow-to-region
              (save-excursion (eshell-bol) (point))
              (point-at-eol))
-            (awhen (nth 9 (syntax-ppss))
-              (cons (1+ (goto-char (car it)))
+            (when-let ((beg (car-safe (nth 9 (syntax-ppss)))))
+              (cons (1+ (goto-char beg))
                     (1- (progn (forward-sexp)
                                (point)))))))))))
 
